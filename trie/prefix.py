@@ -4,9 +4,9 @@ import numpy as np
 from graphviz import Digraph
 
 
-class PrefixTreeNode:
+class PrefixTrieNode:
 	"""
-	A node in a prefix tree.
+	A node in a prefix trie.
 
 	Attributes:
 		parent: the parent node
@@ -16,7 +16,7 @@ class PrefixTreeNode:
 
 	def __init__(self, parent: Optional[Self] = None):
 		"""
-		Initializes a prefix tree node.
+		Initializes a prefix trie node.
 		:param parent: the parent node
 		"""
 		self.parent = parent
@@ -40,20 +40,20 @@ class PrefixTreeNode:
 
 	def insert(self, c: chr) -> Self:
 		"""
-		Insert a node into the prefix tree.
+		Insert a node into the prefix trie.
 		:param c: character for the transition
-		:return: the child node corresponding to the character c
+		:return: the inserted node
 		"""
 		child_node = self.transition(c)
 		if child_node is None:
-			child_node = PrefixTreeNode(self)
+			child_node = PrefixTrieNode(self)
 			self.children[ord(c)] = child_node
 			self.num_children += 1
 		return child_node
 
 	def remove(self, c: chr) -> bool:
 		"""
-		Remove a node from the prefix tree.
+		Remove a node from the prefix trie.
 		:param c: character for the transition
 		:return: True if the node was removed, False otherwise
 		"""
@@ -66,9 +66,9 @@ class PrefixTreeNode:
 		return False
 
 
-class PrefixTree:
+class PrefixTrie:
 	"""
-	A prefix tree.
+	A prefix trie.
 
 	Attributes:
 		root: the root node
@@ -76,22 +76,13 @@ class PrefixTree:
 
 	def __init__(self):
 		"""
-		Initializes a prefix tree.
+		Initializes a prefix trie.
 		"""
-		self.root = PrefixTreeNode(None)
+		self.root = PrefixTrieNode(None)
 
-	def insert(self, s: str):
+	def search(self, q: str) -> Optional[PrefixTrieNode]:
 		"""
-		Insert a string into the prefix tree.
-		:param s: string to insert
-		"""
-		current_node = self.root
-		for c in s + chr(0):
-			current_node = current_node.insert(c)
-
-	def search(self, q: str) -> Optional[PrefixTreeNode]:
-		"""
-		Search for a string in the prefix tree.
+		Search for a string in the prefix trie.
 		:param q: string to search for
 		:return: the final node of the string if it exists, None otherwise
 		"""
@@ -104,9 +95,18 @@ class PrefixTree:
 				return None
 		return current_node
 
+	def insert(self, s: str):
+		"""
+		Insert a string into the prefix trie.
+		:param s: string to insert
+		"""
+		current_node = self.root
+		for c in s + chr(0):
+			current_node = current_node.insert(c)
+
 	def remove(self, s: str) -> bool:
 		"""
-		Remove a string from the prefix tree.
+		Remove a string from the prefix trie.
 		:param s: string to remove
 		:return: True if the string was removed, False otherwise
 		"""
@@ -122,12 +122,12 @@ class PrefixTree:
 			current_node = current_node.parent
 			current_node.remove(c)
 
-	def visualize(self, file_name: str = "prefix_tree", directory_name: str = "graphviz", view: bool = False):
+	def visualize(self, file_name: str = "prefix_trie", directory_name: str = "graphviz", view: bool = False):
 		"""
-		Visualize the prefix tree using graphviz.
+		Visualize the prefix trie using graphviz.
 		"""
 
-		def add_nodes(graph: Digraph, node: PrefixTreeNode, parent_id: str, char: chr):
+		def add_nodes(graph: Digraph, node: PrefixTrieNode, parent_id: str, char: chr):
 			current_id = str(id(node))
 			label = '¤' if char == chr(0) else char
 			graph.node(current_id, label)
@@ -136,15 +136,15 @@ class PrefixTree:
 
 			for j, child_node in enumerate(node.children):
 				if child_node is not None:
-					assert isinstance(child_node, PrefixTreeNode)
+					assert isinstance(child_node, PrefixTrieNode)
 					add_nodes(graph, child_node, current_id, chr(j))
 
-		dot = Digraph(format="png", comment="Prefix Tree")
+		dot = Digraph(format="png", comment="Prefix Trie")
 		dot.attr(dpi="300")
 		dot.node(str(id(self.root)), "ROOT")
 		for i, child in enumerate(self.root.children):
 			if child is not None:
-				assert isinstance(child, PrefixTreeNode)
+				assert isinstance(child, PrefixTrieNode)
 				add_nodes(dot, child, str(id(self.root)), chr(i))
 
 		dot.render(filename=file_name, directory=directory_name, view=view)

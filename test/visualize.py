@@ -1,27 +1,27 @@
 from typing import Union
 
-from src.patricia_tree import PatriciaTree
-from src.prefix_tree import PrefixTree
+from trie.patricia import PatriciaTrie
+from trie.prefix import PrefixTrie
 
 
-def insert_sample_small(t: Union[PrefixTree, PatriciaTree]):
+def insert_sample_small(t: Union[PrefixTrie, PatriciaTrie]):
 	s = """
-		pancakes pancake
+		bakin pancakes makin bacon pancake 
 		"""
 	for word in s.split():
 		t.insert(word)
 
 
-def insert_sample_large(t: Union[PrefixTree, PatriciaTree]):
+def insert_sample_large(t: Union[PrefixTrie, PatriciaTrie]):
 	s = """
-		Making pancakes makin bacon pancakes take some bacon and Ill put it in a pancake
+		bakin pancakes makin bacon pancakes take some bacon and Ill put it in a pancake
 		bacon pancakes thats what its gonna make bacon pancaaaakes
 		"""
 	for word in s.split():
 		t.insert(word)
 
 
-def delete_some_words(t: Union[PrefixTree, PatriciaTree]):
+def delete_some_words(t: Union[PrefixTrie, PatriciaTrie]):
 	t.remove("makin")
 	t.remove("bacon")
 	t.remove("pancake")
@@ -31,14 +31,26 @@ def delete_some_words(t: Union[PrefixTree, PatriciaTree]):
 
 
 if __name__ == "__main__":
-	tree = PrefixTree()
-	insert_sample_large(tree)
-	tree.visualize(file_name="prefix_tree_after_insertion", view=False)
-	delete_some_words(tree)
-	tree.visualize(file_name="prefix_tree_after_deletion", view=False)
+	trie = PrefixTrie()
+	insert_sample_small(trie)
+	trie.visualize(file_name="prefix_trie_small_after_insertion", view=False)
+	delete_some_words(trie)
+	trie.visualize(file_name="prefix_trie_small_after_deletion", view=False)
 
-	tree = PatriciaTree()
-	insert_sample_large(tree)
-	tree.visualize(file_name="patricia_tree_after_insertion", view=False)
-	delete_some_words(tree)
-	tree.visualize(file_name="patricia_tree_after_deletion", view=False)
+	trie = PatriciaTrie()
+	insert_sample_small(trie)
+	trie.visualize(file_name="patricia_trie_small_after_insertion", view=False)
+	delete_some_words(trie)
+	trie.visualize(file_name="patricia_trie_small_after_deletion", view=False)
+
+	trie = PrefixTrie()
+	insert_sample_large(trie)
+	trie.visualize(file_name="prefix_trie_large_after_insertion", view=False)
+	delete_some_words(trie)
+	trie.visualize(file_name="prefix_trie_large_after_deletion", view=False)
+
+	trie = PatriciaTrie()
+	insert_sample_large(trie)
+	trie.visualize(file_name="patricia_trie_large_after_insertion", view=False)
+	delete_some_words(trie)
+	trie.visualize(file_name="patricia_trie_large_after_deletion", view=False)
