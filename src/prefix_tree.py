@@ -1,6 +1,7 @@
 from typing import Optional, Self
 
 import numpy as np
+from graphviz import Digraph
 
 
 class PrefixTreeNode:
@@ -8,44 +9,26 @@ class PrefixTreeNode:
 	A node in a prefix tree.
 
 	Attributes:
-		_parent: the parent node
-		_children: array of children, indexed by ASCII values
-		_num_children: number of non-None children
-		_is_final: indicates if the node represents the end of a string
+		parent: the parent node
+		children: array of children, indexed by ASCII values
+		num_children: number of non-None children
 	"""
 
-	@property
-	def parent(self):
-		return self._parent
-
-	@property
-	def num_children(self):
-		return self._num_children
-
-	@property
-	def is_final(self):
-		return self._is_final
-
-	@is_final.setter
-	def is_final(self, value: bool):
-		self._is_final = value
-
-	def __init__(self, parent: Optional[Self] = None, is_final: bool = False):
+	def __init__(self, parent: Optional[Self] = None):
 		"""
 		Initializes a prefix tree node.
 		:param parent: the parent node
 		"""
-		self._parent = parent
-		self._children = np.full(256, None)
-		self._num_children = 0
-		self._is_final = is_final
+		self.parent = parent
+		self.children = np.full(256, None, dtype=object)
+		self.num_children = 0
 
 	def is_leaf(self) -> bool:
 		"""
 		Check if the node is a leaf.
 		:return: True if the node is a leaf, False otherwise
 		"""
-		return self._num_children == 0
+		return self.num_children == 0
 
 	def transition(self, c: chr) -> Optional[Self]:
 		"""
@@ -53,7 +36,7 @@ class PrefixTreeNode:
 		:param c: character to transition to
 		:return: the child node corresponding to the character c if it exists, None otherwise
 		"""
-		return self._children[ord(c)]
+		return self.children[ord(c)]
 
 	def insert(self, c: chr) -> Self:
 		"""
@@ -64,8 +47,8 @@ class PrefixTreeNode:
 		child_node = self.transition(c)
 		if child_node is None:
 			child_node = PrefixTreeNode(self)
-			self._children[ord(c)] = child_node
-			self._num_children += 1
+			self.children[ord(c)] = child_node
+			self.num_children += 1
 		return child_node
 
 	def remove(self, c: chr) -> bool:
@@ -76,9 +59,9 @@ class PrefixTreeNode:
 		"""
 		child_node = self.transition(c)
 		if child_node is not None:
-			child_node._parent = None
-			self._children[ord(c)] = None
-			self._num_children -= 1
+			child_node.parent = None
+			self.children[ord(c)] = None
+			self.num_children -= 1
 			return True
 		return False
 
@@ -88,24 +71,23 @@ class PrefixTree:
 	A prefix tree.
 
 	Attributes:
-		_root: the root node
+		root: the root node
 	"""
 
 	def __init__(self):
 		"""
 		Initializes a prefix tree.
 		"""
-		self._root = PrefixTreeNode(None)
+		self.root = PrefixTreeNode(None)
 
 	def insert(self, s: str):
 		"""
 		Insert a string into the prefix tree.
 		:param s: string to insert
 		"""
-		current_node = self._root
-		for c in s:
+		current_node = self.root
+		for c in s + chr(0):
 			current_node = current_node.insert(c)
-		current_node.is_final = True
 
 	def search(self, q: str) -> Optional[PrefixTreeNode]:
 		"""
@@ -113,15 +95,14 @@ class PrefixTree:
 		:param q: string to search for
 		:return: the final node of the string if it exists, None otherwise
 		"""
-		if self._root is None:
+		if self.root is None:
 			return None
-		current_node = self._root
-		for c in q:
+		current_node = self.root
+		for c in q + chr(0):
 			current_node = current_node.transition(c)
 			if current_node is None:
 				return None
-		if current_node.is_final:
-			return current_node
+		return current_node
 
 	def remove(self, s: str) -> bool:
 		"""
@@ -134,11 +115,36 @@ class PrefixTree:
 		if end_node is None:
 			return False
 		# Then, remove the nodes one by one in reverse order
-		end_node.is_final = False
 		current_node = end_node
-		for c in reversed(s):
+		for c in reversed(s + chr(0)):
+			if not current_node.is_leaf():
+				break
 			current_node = current_node.parent
 			current_node.remove(c)
-			if current_node.is_final or not current_node.is_leaf():
-				break
-		return True
+
+	def visualize(self, file_name: str = "prefix_tree", directory_name: str = "graphviz", view: bool = False):
+		"""
+		Visualize the prefix tree using graphviz.
+		"""
+
+		def add_nodes(graph: Digraph, node: PrefixTreeNode, parent_id: str, char: chr):
+			current_id = str(id(node))
+			label = '¤' if char == chr(0) else char
+			graph.node(current_id, label)
+			if parent_id is not None:
+				graph.edge(parent_id, current_id)
+
+			for j, child_node in enumerate(node.children):
+				if child_node is not None:
+					assert isinstance(child_node, PrefixTreeNode)
+					add_nodes(graph, child_node, current_id, chr(j))
+
+		dot = Digraph(format="png", comment="Prefix Tree")
+		dot.attr(dpi="300")
+		dot.node(str(id(self.root)), "ROOT")
+		for i, child in enumerate(self.root.children):
+			if child is not None:
+				assert isinstance(child, PrefixTreeNode)
+				add_nodes(dot, child, str(id(self.root)), chr(i))
+
+		dot.render(filename=file_name, directory=directory_name, view=view)

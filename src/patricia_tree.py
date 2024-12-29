@@ -1,6 +1,7 @@
 from typing import Optional, Self
 
 import numpy as np
+from graphviz import Digraph
 
 
 class PatriciaTreeNode:
@@ -24,7 +25,7 @@ class PatriciaTreeNode:
 	def insert(self, node: Self):
 		if self.children[ord(node.s[node.p])] is None:
 			self.num_children += 1
-			node.parent = self
+		node.parent = self
 		self.children[ord(node.s[node.p])] = node
 
 	def remove(self, node: Self):
@@ -51,7 +52,7 @@ class PatriciaTree:
 		self.root = PatriciaTreeNode(None, 0, 0)
 
 	def search(self, q: str) -> Optional[PatriciaTreeNode]:
-		q = q + '$'
+		q = q + chr(0)
 		p, l = 0, len(q)
 		current_node = self.root
 		while not current_node.is_leaf():
@@ -64,7 +65,7 @@ class PatriciaTree:
 		return current_node if p == l else None
 
 	def insert(self, s: str) -> PatriciaTreeNode:
-		s = s + '$'
+		s = s + chr(0)
 		p, l = 0, len(s)
 		current_node = self.root
 		while current_node == self.root or not current_node.is_leaf():
@@ -86,7 +87,7 @@ class PatriciaTree:
 			current_node.insert(middle_node)
 			middle_node.insert(child_node)
 			end_node = PatriciaTreeNode(s, p + k, l - p - k)
-			current_node.insert(end_node)
+			middle_node.insert(end_node)
 			return end_node
 
 	def remove(self, s: str) -> bool:
@@ -99,10 +100,11 @@ class PatriciaTree:
 		current_node.remove(final_node)
 		first_child, is_only_child = current_node.check_children()
 		if is_only_child and current_node.parent is not None:
-			current_node.parent.remove(current_node)
+			parent = current_node.parent
+			parent.remove(current_node)
 			first_child.p -= current_node.l
 			first_child.l += current_node.l
-			current_node.parent.insert(first_child)
+			parent.insert(first_child)
 		if first_child is not None:
 			current_node = first_child
 			while current_node.parent is not None:
@@ -110,3 +112,30 @@ class PatriciaTree:
 					current_node.parent.s = current_node.s
 				current_node = current_node.parent
 		return True
+
+	def visualize(self, file_name: str = "prefix_tree", directory_name: str = "graphviz", view: bool = False):
+		"""
+		Visualize the Patricia tree using graphviz.
+		"""
+
+		def add_nodes(graph: Digraph, node: PatriciaTreeNode, parent_id: str, label: str):
+			current_id = str(id(node))
+			label = f"{label.replace(chr(0), '¤')}"
+			graph.node(current_id, label)
+			if parent_id is not None:
+				graph.edge(parent_id, current_id)
+
+			for child_node in node.children:
+				if child_node is not None:
+					assert isinstance(child_node, PatriciaTreeNode)
+					add_nodes(graph, child_node, current_id, child_node.substring())
+
+		dot = Digraph(format="png", comment="Patricia Tree")
+		dot.attr(dpi="300")
+		dot.node(str(id(self.root)), "ROOT")
+		for child in self.root.children:
+			if child is not None:
+				assert isinstance(child, PatriciaTreeNode)
+				add_nodes(dot, child, str(id(self.root)), child.substring())
+
+		dot.render(filename=file_name, directory=directory_name, view=view)
