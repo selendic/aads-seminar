@@ -1,0 +1,96 @@
+Profiling PatriciaTrie...
+
+Insertion profiling for PatriciaTrie:
+
+         304422 function calls in 0.143 seconds
+
+   Ordered by: internal time
+
+   ncalls  tottime  percall  cumtime  percall filename:lineno(function)
+     9884    0.040    0.000    0.141    0.000 patricia.py:146(insert)
+    14752    0.022    0.000    0.022    0.000 {built-in method numpy.empty}
+    14752    0.020    0.000    0.052    0.000 numeric.py:303(full)
+    39262    0.014    0.000    0.017    0.000 patricia.py:42(transition)
+    19620    0.010    0.000    0.014    0.000 patricia.py:50(insert)
+    14752    0.008    0.000    0.008    0.000 {built-in method numpy.asarray}
+    14752    0.007    0.000    0.059    0.000 patricia.py:20(__init__)
+    78502    0.007    0.000    0.007    0.000 {built-in method builtins.ord}
+    34246    0.006    0.000    0.006    0.000 patricia.py:28(substring)
+    29378    0.003    0.000    0.003    0.000 patricia.py:35(is_leaf)
+        1    0.002    0.002    0.143    0.143 run_profiling.py:56(<lambda>)
+    14752    0.002    0.000    0.002    0.000 multiarray.py:1101(copyto)
+     9884    0.001    0.000    0.001    0.000 {built-in method builtins.chr}
+     9884    0.001    0.000    0.001    0.000 {built-in method builtins.len}
+        1    0.000    0.000    0.000    0.000 {method 'disable' of '_lsprof.Profiler' objects}
+
+
+
+
+Search profiling for PatriciaTrie:
+
+         241802 function calls in 0.073 seconds
+
+   Ordered by: internal time
+
+   ncalls  tottime  percall  cumtime  percall filename:lineno(function)
+     9884    0.035    0.000    0.071    0.000 patricia.py:100(search)
+    50566    0.017    0.000    0.021    0.000 patricia.py:42(transition)
+    50566    0.008    0.000    0.008    0.000 patricia.py:28(substring)
+    60450    0.005    0.000    0.005    0.000 patricia.py:35(is_leaf)
+    50566    0.004    0.000    0.004    0.000 {built-in method builtins.ord}
+        1    0.002    0.002    0.073    0.073 run_profiling.py:62(<lambda>)
+     9884    0.001    0.000    0.001    0.000 {built-in method builtins.len}
+     9884    0.001    0.000    0.001    0.000 {built-in method builtins.chr}
+        1    0.000    0.000    0.000    0.000 {method 'disable' of '_lsprof.Profiler' objects}
+
+
+
+
+Range search profiling for PatriciaTrie:
+
+         16048581 function calls in 12.293 seconds
+
+   Ordered by: internal time
+
+   ncalls  tottime  percall  cumtime  percall filename:lineno(function)
+     9884    9.783    0.001   12.286    0.001 patricia.py:119(range_search)
+  2445654    0.567    0.000    0.567    0.000 {method 'add' of 'set' objects}
+  3677878    0.562    0.000    0.562    0.000 {method 'pop' of 'list' objects}
+  2445654    0.530    0.000    0.530    0.000 {method 'replace' of 'str' objects}
+  3706559    0.332    0.000    0.332    0.000 patricia.py:35(is_leaf)
+  2445654    0.253    0.000    0.253    0.000 {built-in method builtins.chr}
+  1232224    0.231    0.000    0.231    0.000 {method 'extend' of 'list' objects}
+    18797    0.014    0.000    0.016    0.000 patricia.py:42(transition)
+        1    0.006    0.006   12.293   12.293 run_profiling.py:68(<lambda>)
+    18797    0.004    0.000    0.004    0.000 patricia.py:28(substring)
+    18797    0.004    0.000    0.004    0.000 {built-in method builtins.min}
+    18797    0.002    0.000    0.002    0.000 {built-in method builtins.ord}
+     9884    0.002    0.000    0.002    0.000 {built-in method builtins.len}
+        1    0.000    0.000    0.000    0.000 {method 'disable' of '_lsprof.Profiler' objects}
+
+
+
+
+Deletion profiling for PatriciaTrie:
+
+         296890 function calls in 0.129 seconds
+
+   Ordered by: internal time
+
+   ncalls  tottime  percall  cumtime  percall filename:lineno(function)
+     9884    0.034    0.000    0.069    0.000 patricia.py:100(search)
+     9884    0.021    0.000    0.021    0.000 patricia.py:74(check_children)
+     9884    0.017    0.000    0.120    0.000 patricia.py:177(remove)
+    44681    0.016    0.000    0.020    0.000 patricia.py:42(transition)
+        1    0.008    0.008    0.129    0.129 run_profiling.py:74(<lambda>)
+    14752    0.008    0.000    0.010    0.000 patricia.py:60(remove)
+    44681    0.007    0.000    0.007    0.000 patricia.py:28(substring)
+    83921    0.007    0.000    0.007    0.000 {built-in method builtins.ord}
+    54565    0.005    0.000    0.005    0.000 patricia.py:35(is_leaf)
+     4868    0.003    0.000    0.003    0.000 patricia.py:50(insert)
+     9884    0.001    0.000    0.001    0.000 {built-in method builtins.len}
+     9884    0.001    0.000    0.001    0.000 {built-in method builtins.chr}
+        1    0.000    0.000    0.000    0.000 {method 'disable' of '_lsprof.Profiler' objects}
+
+
+

@@ -1,0 +1,83 @@
+Profiling PrefixTrie...
+
+Insertion profiling for PrefixTrie:
+
+         414158 function calls in 0.214 seconds
+
+   Ordered by: internal time
+
+   ncalls  tottime  percall  cumtime  percall filename:lineno(function)
+    33835    0.054    0.000    0.107    0.000 numeric.py:303(full)
+    33835    0.050    0.000    0.050    0.000 {built-in method numpy.empty}
+    75071    0.043    0.000    0.195    0.000 prefix.py:41(insert)
+    75071    0.024    0.000    0.031    0.000 prefix.py:33(transition)
+     9884    0.016    0.000    0.212    0.000 prefix.py:127(insert)
+    33835    0.012    0.000    0.118    0.000 prefix.py:17(__init__)
+   108906    0.009    0.000    0.009    0.000 {built-in method builtins.ord}
+    33835    0.003    0.000    0.003    0.000 multiarray.py:1101(copyto)
+        1    0.002    0.002    0.214    0.214 run_profiling.py:56(<lambda>)
+     9884    0.001    0.000    0.001    0.000 {built-in method builtins.chr}
+        1    0.000    0.000    0.000    0.000 {method 'disable' of '_lsprof.Profiler' objects}
+
+
+
+
+Search profiling for PrefixTrie:
+
+         179796 function calls in 0.048 seconds
+
+   Ordered by: internal time
+
+   ncalls  tottime  percall  cumtime  percall filename:lineno(function)
+    75071    0.022    0.000    0.028    0.000 prefix.py:33(transition)
+     9884    0.013    0.000    0.041    0.000 prefix.py:83(_search)
+    75071    0.006    0.000    0.006    0.000 {built-in method builtins.ord}
+     9884    0.004    0.000    0.046    0.000 prefix.py:98(search)
+        1    0.002    0.002    0.048    0.048 run_profiling.py:62(<lambda>)
+     9884    0.001    0.000    0.001    0.000 {built-in method builtins.chr}
+        1    0.000    0.000    0.000    0.000 {method 'disable' of '_lsprof.Profiler' objects}
+
+
+
+
+Range search profiling for PrefixTrie:
+
+         37067544 function calls in 78.561 seconds
+
+   Ordered by: internal time
+
+   ncalls  tottime  percall  cumtime  percall filename:lineno(function)
+     9884   73.351    0.007   78.539    0.008 prefix.py:106(range_search)
+ 22689264    2.329    0.000    2.329    0.000 {built-in method builtins.chr}
+  5942536    1.003    0.000    1.003    0.000 {method 'pop' of 'list' objects}
+  5932652    0.978    0.000    0.978    0.000 {method 'append' of 'list' objects}
+  2445654    0.829    0.000    0.829    0.000 {method 'add' of 'set' objects}
+    18834    0.028    0.000    0.032    0.000 prefix.py:33(transition)
+        1    0.022    0.022   78.561   78.561 run_profiling.py:68(<lambda>)
+     9884    0.016    0.000    0.048    0.000 prefix.py:83(_search)
+    18834    0.004    0.000    0.004    0.000 {built-in method builtins.ord}
+        1    0.000    0.000    0.000    0.000 {method 'disable' of '_lsprof.Profiler' objects}
+
+
+
+
+Deletion profiling for PrefixTrie:
+
+         378597 function calls in 0.130 seconds
+
+   Ordered by: internal time
+
+   ncalls  tottime  percall  cumtime  percall filename:lineno(function)
+     9884    0.040    0.000    0.122    0.000 prefix.py:136(remove)
+   108906    0.032    0.000    0.041    0.000 prefix.py:33(transition)
+    33835    0.015    0.000    0.028    0.000 prefix.py:54(remove)
+     9884    0.014    0.000    0.044    0.000 prefix.py:83(_search)
+   142741    0.012    0.000    0.012    0.000 {built-in method builtins.ord}
+        1    0.008    0.008    0.130    0.130 run_profiling.py:74(<lambda>)
+     9884    0.004    0.000    0.049    0.000 prefix.py:98(search)
+    43693    0.004    0.000    0.004    0.000 prefix.py:26(is_leaf)
+    19768    0.002    0.000    0.002    0.000 {built-in method builtins.chr}
+        1    0.000    0.000    0.000    0.000 {method 'disable' of '_lsprof.Profiler' objects}
+
+
+

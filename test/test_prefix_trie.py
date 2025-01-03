@@ -97,6 +97,25 @@ class TestPrefixTrie(unittest.TestCase):
 			os.remove("test_prefix_trie")
 			os.remove("test_prefix_trie.png")
 
+	def test_range_search(self):
+		"""Test range search for strings with a given prefix."""
+		self.trie.insert("hello")
+		self.trie.insert("world")
+		self.trie.insert("help")
+		self.trie.insert("hell")
+
+		# Search for strings with the prefix "hel"
+		results = self.trie.range_search("hel")
+		self.assertEqual({"hello", "help", "hell"}, results)
+
+		# Search for strings with the prefix "wor"
+		results = self.trie.range_search("wor")
+		self.assertEqual({"world"}, results)
+
+		# Search for strings with the prefix "nope"
+		results = self.trie.range_search("nope")
+		self.assertEqual(set(), results)
+
 
 if __name__ == "__main__":
 	unittest.main()

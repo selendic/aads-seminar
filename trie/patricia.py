@@ -106,14 +106,42 @@ class PatriciaTrie:
 		q = q + chr(0)
 		p, l = 0, len(q)
 		current_node = self.root
-		while not current_node.is_leaf():
+		while not current_node.is_leaf() and p < l:
 			child_node = current_node.transition(q[p])
-			if child_node is None:
+			if child_node is None:  # not found
 				return None
-			if q[p: p + child_node.l] != child_node.substring():
+			if q[p: p + child_node.l] != child_node.substring():  # partial match
 				return None
-			p, current_node = p + child_node.l, child_node
+			p += child_node.l
+			current_node = child_node
 		return current_node if p == l else None
+
+	def range_search(self, q: str) -> set[str]:
+		"""
+		Search for all strings with a given prefix in the Patricia trie.
+		:param q: prefix to search for
+		:return: list of strings with the given prefix
+		"""
+		p, l = 0, len(q)
+		current_node = self.root
+		while not current_node.is_leaf() and p < l:
+			child_node = current_node.transition(q[p])
+			if child_node is None:  # not found
+				return set()
+			prefix_len = min(child_node.l, l - p)
+			if q[p: p + prefix_len] != child_node.substring()[:prefix_len]:
+				return set()
+			p += prefix_len
+			current_node = child_node
+		results = set()
+		stack = [current_node]
+		while stack:
+			current_node = stack.pop()
+			if current_node.is_leaf():
+				results.add(current_node.s.replace(chr(0), ""))
+			else:
+				stack.extend([child for child in current_node.children if child is not None])
+		return results
 
 	def insert(self, s: str) -> PatriciaTrieNode:
 		"""
@@ -193,7 +221,7 @@ class PatriciaTrie:
 
 		dot = Digraph(format="png", comment="Patricia Trie")
 		dot.attr(dpi="300")
-		dot.node(str(id(self.root)), "ROOT")
+		dot.node(str(id(self.root)), "", shape="diamond", style="filled", fillcolor="black", width="0.1", height="0.1")
 		for child in self.root.children:
 			if child is not None:
 				assert isinstance(child, PatriciaTrieNode)

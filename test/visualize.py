@@ -6,7 +6,7 @@ from trie.prefix import PrefixTrie
 
 def insert_sample_small(t: Union[PrefixTrie, PatriciaTrie]):
 	s = """
-		bakin pancakes makin bacon pancake 
+		baking pancakes making bacon pancake 
 		"""
 	for word in s.split():
 		t.insert(word)
@@ -14,7 +14,7 @@ def insert_sample_small(t: Union[PrefixTrie, PatriciaTrie]):
 
 def insert_sample_large(t: Union[PrefixTrie, PatriciaTrie]):
 	s = """
-		bakin pancakes makin bacon pancakes take some bacon and Ill put it in a pancake
+		baking pancakes making bacon pancakes take some bacon and Ill put it in a pancake
 		bacon pancakes thats what its gonna make bacon pancaaaakes
 		"""
 	for word in s.split():
@@ -22,7 +22,7 @@ def insert_sample_large(t: Union[PrefixTrie, PatriciaTrie]):
 
 
 def delete_some_words(t: Union[PrefixTrie, PatriciaTrie]):
-	t.remove("makin")
+	t.remove("making")
 	t.remove("bacon")
 	t.remove("pancake")
 	t.remove("its")

@@ -80,20 +80,49 @@ class PrefixTrie:
 		"""
 		self.root = PrefixTrieNode(None)
 
+	def _search(self, prefix: str) -> Optional[PrefixTrieNode]:
+		"""
+		Search for a prefix in the prefix trie.
+		:param prefix: prefix to search for
+		:return: the final node of the prefix if it exists, None otherwise
+		"""
+		if self.root is None:
+			return None
+		current_node = self.root
+		for c in prefix:
+			current_node = current_node.transition(c)
+			if current_node is None:
+				return None
+		return current_node
+
 	def search(self, q: str) -> Optional[PrefixTrieNode]:
 		"""
 		Search for a string in the prefix trie.
 		:param q: string to search for
 		:return: the final node of the string if it exists, None otherwise
 		"""
-		if self.root is None:
-			return None
-		current_node = self.root
-		for c in q + chr(0):
-			current_node = current_node.transition(c)
-			if current_node is None:
-				return None
-		return current_node
+		return self._search(q + chr(0))
+
+	def range_search(self, q: str) -> set[str]:
+		"""
+		Search for all strings with a given prefix in the prefix trie.
+		:param q: prefix to search for
+		:return: list of strings with the given prefix
+		"""
+		current_node = self._search(q)
+		if current_node is None:
+			return set()
+		words = set()
+		stack = [(q, current_node)]
+		while stack:
+			current_prefix, current_node = stack.pop()
+			for j, child_node in enumerate(current_node.children):
+				if child_node is not None:
+					if chr(j) == chr(0):
+						words.add(current_prefix)
+					else:
+						stack.append((current_prefix + chr(j), child_node))
+		return words
 
 	def insert(self, s: str):
 		"""
@@ -141,7 +170,7 @@ class PrefixTrie:
 
 		dot = Digraph(format="png", comment="Prefix Trie")
 		dot.attr(dpi="300")
-		dot.node(str(id(self.root)), "ROOT")
+		dot.node(str(id(self.root)), "", shape="diamond", style="filled", fillcolor="black", width="0.2", height="0.2")
 		for i, child in enumerate(self.root.children):
 			if child is not None:
 				assert isinstance(child, PrefixTrieNode)
