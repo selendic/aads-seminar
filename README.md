@@ -19,7 +19,7 @@ This project is written in **Python 3.13**. Running on lower versions could work
 ### Setting Up a Virtual Environment
 It is recommended to use a virtual environment to manage dependencies. To create and activate a virtual environment, follow these steps:
 
-#### macOS and Linux
+#### Linux and macOS
 ```bash
 python -m venv venv
 source venv/bin/activate
@@ -80,6 +80,6 @@ Special thanks to course instructors for their valuable guidance.
 ## **Contact**
 For any inquiries or feedback, feel free to reach out:
 - **Name**: Marko Šelendić
-- **Email**: [marko.selendic@fer.hr](mailto: marko.selendic@fer.hr)
+- **Email**: marko.selendic@fer.hr
 
 ---
