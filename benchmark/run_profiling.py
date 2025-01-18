@@ -79,5 +79,5 @@ def run_experiments_with_profiling(trie_class, words, prefixes, output_file=None
 if __name__ == "__main__":
 	word_list, prefix_list = load_word_list(DATASET_PATH(Length.ALL.value))
 	for trie_type in [PrefixTrie, PatriciaTrie]:
-		output_path = f"{PROFILE_OUTPUT_PATH}_{trie_type.__name__}.txt"
+		output_path = f"{PROFILE_OUTPUT_PATH}{trie_type.__name__}_output.txt"
 		run_experiments_with_profiling(trie_type, word_list, prefix_list, output_file=output_path)
