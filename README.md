@@ -80,6 +80,6 @@ Special thanks to course instructors for their valuable guidance.
 ## **Contact**
 For any inquiries or feedback, feel free to reach out:
 - **Name**: Marko Šelendić
-- **Email**: [marko.selendic@fer.hr](mailto: marko.selendic@fer.hr)
+- **Email**: marko.selendic@fer.hr
 
 ---
