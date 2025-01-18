@@ -87,15 +87,8 @@ def run_experiments(length: Length = Length.ALL):
 	"""
 	# Load and preprocess the dataset
 	print("Loading and preprocessing the dataset...")
-	words = load_word_list(DATASET_PATH(length.value))
+	words, prefixes_for_range_search = load_word_list(DATASET_PATH(length.value))
 	# words = filter_words_by_length(words, MIN_WORD_LENGTH, MAX_WORD_LENGTH)
-
-	# Prepare the prefixes for range search
-	# We will use all possible one-character and two-character prefixes
-	ascii_alphabet_lowercase = "abcdefghijklmnopqrstuvwxyz"
-	prefixes_for_range_search = [char for char in ascii_alphabet_lowercase]
-	prefixes_for_range_search += [char1 + char2 for char1 in ascii_alphabet_lowercase for char2 in
-								  ascii_alphabet_lowercase]
 
 	# Future DataFrame to store the results
 	results = []
@@ -149,7 +142,7 @@ def plot_results(df, length: Length = Length.ALL):
 					label=f"{trie}"
 				)
 			plt.title(
-				f"{operation} {metric.lower()} performance",fontsize=20
+				f"{operation} {metric.lower()} performance", fontsize=20
 			)  # f"{operation} {metric.lower()} performance ({length.name.lower()} words)" if filtering based on word length
 			plt.xlabel("Dataset size", fontsize=16)
 			plt.ylabel(y_label, fontsize=16)
