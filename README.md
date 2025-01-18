@@ -1,6 +1,8 @@
 # Performance Comparison of a (Prefix) Trie and Patricia Trie
 
-This repository contains the implementation and performance comparison of a Prefix Trie and a Patricia Trie as part of the **Advanced Algorithms and Data Structures** course at the Faculty of Electrical Engineering and Computing, University of Zagreb.
+This repository contains the implementation and performance comparison of a Prefix Trie and a Patricia Trie
+as part of the **Advanced Algorithms and Data Structures** course
+at the Faculty of Electrical Engineering and Computing, University of Zagreb.
 
 The project aims to:
 - Implement the Prefix Trie and the Patricia Trie with the possibility if visualization at any steps.
@@ -17,7 +19,8 @@ The project aims to:
 This project is written in **Python 3.13**. Running on lower versions could work, but Python 3.13 or higher is recommended.
 
 ### Setting Up a Virtual Environment
-It is recommended to use a virtual environment to manage dependencies. To create and activate a virtual environment, follow these steps:
+It is recommended to use a virtual environment to manage dependencies.
+To create and activate a virtual environment, follow these steps:
 
 #### Linux and macOS
 ```bash
@@ -72,8 +75,8 @@ python benchmark/run_profiling.py
 ---
 
 ## **Acknowledgments**
-This work is part of the **Advanced Algorithms and Data Structures** course at the Faculty of Electrical Engineering and Computing, University of Zagreb.
-Special thanks to course instructors for their valuable guidance.
+Special thanks to course instructors for their valuable guidance,
+and especially to dr. sc. Juraj Dončević for his support and mentorship throughout the project.
 
 ---
 
